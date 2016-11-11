@@ -22,6 +22,14 @@ func (f Story) Title() string {
     return f.title
 }
 
+func (f Story) Url() string {
+    return f.url
+}
+
+func (f Story) ParentSource() string {
+    return f.parentSource
+}
+
 type Stories []Story
 
 

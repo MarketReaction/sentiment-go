@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
+	"log"
 )
 
 func main() {
 
-    	args := os.Args[1:]
+	args := os.Args[1:]
 
 	fmt.Println(args)
 
@@ -17,7 +18,25 @@ func main() {
 
 	fmt.Println("StoryId: " + storyId)
 
+	// Load the Story
 	var story *model.Story = repo.RepoFindStory(storyId)
 
 	fmt.Println("StoryTitle: " + story.Title())
+
+	// Check it has NamedEntities
+
+	// Analyse Entities (ie, call sentiment-api)
+
+	// Load list of matched companies
+
+	// For each company
+	//		Find entities from story that match company
+	//		Construct StorySentiment on matches
+	//		Count the occurrences of that name in the company information
+	//		Apply that count as a multiplier on the sentiment
+	//		Save the StorySentiment
+
+
+	// For each company with an updated sentiment send the Id on Queue SentimentUpdated
+
 }

@@ -11,7 +11,7 @@ func RepoFindStory(id string) *model.Story {
 
 	defer session.Close()
 
-	log.Printf("Finding video [%s]", id)
+	log.Printf("Finding story [%s]", id)
 
 	result := &model.Story{}
 	err = c.FindId(bson.ObjectIdHex(id)).One(&result)
