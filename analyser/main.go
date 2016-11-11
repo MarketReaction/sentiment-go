@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
-	"log"
 )
 
 func main() {
