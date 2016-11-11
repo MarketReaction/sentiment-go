@@ -20,7 +20,7 @@ func TestAnalyser(t *testing.T) {
 
 	mongoSession, err := mgo.Dial(ip)
 	if err != nil {
-		log.Printf("MongoDB connection failed, with address '%s'.")
+		log.Printf("MongoDB connection failed, with address '%s'.", ip)
 	}
 	defer mongoSession.Close()
 
