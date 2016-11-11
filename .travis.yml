@@ -9,6 +9,7 @@ go:
   - tip
 
 script:
+ -  go test
  -  docker run -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
  -  docker build analyser -t jonnyshaw89/sentiment:latest
 

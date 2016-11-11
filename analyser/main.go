@@ -23,6 +23,10 @@ func main() {
 	fmt.Println("StoryTitle: " + story.Title())
 
 	// Check it has NamedEntities
+	//if story.NamedEntities() == nil {
+	//	log.Printf("Story [%s] has no NamedEntities", storyId)
+	//	os.Exit(0)
+	//}
 
 	// Analyse Entities (ie, call sentiment-api)
 

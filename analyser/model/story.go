@@ -8,26 +8,30 @@ import (
 type Story struct {
 	Id               bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	url              string        `json:"url"`
-	dateFound        time.Time        `json:"dateFound"`
+	dateFound        time.Time     `json:"dateFound"`
 	title            string        `json:"title"`
 	body             string        `json:"body"`
-	datePublished    time.Time        `json:"datePublished"`
+	datePublished    time.Time     `json:"datePublished"`
+	namedEntities 	 NamedEntities  `bson:"keywords"`
 
 	parentSource     string        `json:"parentSource"`
-	matchedCompanies []string        `json:"matchedCompanies"`
-	sentiment        int        `json:"sentiment"`
+	matchedCompanies []string      `json:"matchedCompanies"`
+	sentiment        int           `json:"sentiment"`
 }
 
 func (f Story) Title() string {
-    return f.title
+	return f.title
 }
 
 func (f Story) Url() string {
-    return f.url
+	return f.url
 }
 
 func (f Story) ParentSource() string {
-    return f.parentSource
+	return f.parentSource
+}
+func (f Story) NamedEntities() NamedEntities {
+	return f.namedEntities
 }
 
 type Stories []Story
