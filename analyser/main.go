@@ -11,13 +11,13 @@ func main() {
 
     	args := os.Args[1:]
 
-	fmt.Println("Args: " + args)
+	fmt.Println(args)
 
 	var storyId string = args[0]
 
 	fmt.Println("StoryId: " + storyId)
 
-	story := RepoFindStory(storyId)
+	var story *model.Story = repo.RepoFindStory(storyId)
 
-	fmt.Println("StoryTitle: " + story.title)
+	fmt.Println("StoryTitle: " + story.Title())
 }

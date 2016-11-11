@@ -6,14 +6,14 @@ import (
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 )
 
-func RepoFindStory(id string) Story {
+func RepoFindStory(id string) *model.Story {
 	session, c, err := getMongoCollection("stories")
 
 	defer session.Close()
 
 	log.Printf("Finding video [%s]", id)
 
-	result := Story{}
+	result := &model.Story{}
 	err = c.FindId(bson.ObjectIdHex(id)).One(&result)
 	if err != nil {
 		log.Printf("ERROR [%s]", err)

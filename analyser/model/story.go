@@ -18,6 +18,10 @@ type Story struct {
 	sentiment        int        `json:"sentiment"`
 }
 
+func (f Story) Title() string {
+    return f.title
+}
+
 type Stories []Story
 
 
