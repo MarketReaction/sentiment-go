@@ -3,6 +3,8 @@ package main // import "github.com/MarketReaction/sentiment-go/analyser"
 import (
 	"os"
 	"fmt"
+	"github.com/MarketReaction/sentiment-go/analyser/model"
+	"github.com/MarketReaction/sentiment-go/analyser/repo"
 )
 
 func main() {
