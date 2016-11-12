@@ -3,7 +3,7 @@ package repo
 import (
 	"log"
 	"labix.org/v2/mgo/bson"
-	"github.com/MarketReaction/sentiment-go/analyser/model"
+	"../model"
 )
 
 func RepoFindStory(id string) *model.Story {

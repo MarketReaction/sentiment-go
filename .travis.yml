@@ -8,11 +8,14 @@ services:
 go:
   - tip
 
+env:
+  - DOCKERTEST_BIND_LOCALHOST=true
+
 script:
  -  go test
 
 after_success:
  -  docker run -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
  -  docker build analyser -t jonnyshaw89/sentiment:latest
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker login -e="$DOCKER_EMAnIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push jonnyshaw89/sentiment:latest
