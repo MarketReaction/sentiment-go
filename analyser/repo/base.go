@@ -5,7 +5,7 @@ import (
 	"labix.org/v2/mgo"
 )
 
-func getMongoCollection(collection string) (*mgo.Session, *mgo.Collection, error) {
+func GetMongoCollection(collection string) (*mgo.Session, *mgo.Collection, error) {
 	session, err := mgo.Dial(os.Getenv("MONGO_PORT_27017_TCP_ADDR") + ":" + os.Getenv("MONGO_PORT_27017_TCP_PORT"))
 	if err != nil {
 		panic(err)
@@ -13,6 +13,6 @@ func getMongoCollection(collection string) (*mgo.Session, *mgo.Collection, error
 
 	session.SetMode(mgo.Monotonic, true)
 
-	// Collection People
+	// get Collection
 	return session, session.DB("MarketReaction").C(collection), err
 }

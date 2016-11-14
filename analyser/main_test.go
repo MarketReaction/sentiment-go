@@ -9,12 +9,14 @@ import (
 	"log"
 	"time"
 	"strings"
+	"./repo"
+	"./model"
 )
 
 func TestAnalyser(t *testing.T) {
 
 	var db *mgo.Session
-	c, err := dockertest.ConnectToMongoDB(15, time.Millisecond*500, func(url string) bool {
+	c, err := dockertest.ConnectToMongoDB(15, time.Millisecond * 500, func(url string) bool {
 		// This callback function checks if the image's process is responsive.
 		// Sometimes, docker images are booted but the process (in this case MongoDB) is still doing maintenance
 		// before being fully responsive which might cause issues like "TCP Connection reset by peer".
@@ -43,9 +45,20 @@ func TestAnalyser(t *testing.T) {
 	os.Setenv("MONGO_PORT_27017_TCP_ADDR", "127.0.0.1")
 	os.Setenv("MONGO_PORT_27017_TCP_PORT", mongoHost[1])
 
-	var id string = bson.NewObjectId().Hex()
+	var id bson.ObjectId = bson.NewObjectId()
 
-	os.Args = []string{"/analyse", id}
+	session, con, err := repo.GetMongoCollection("stories")
+
+	defer session.Close()
+
+	entry := &model.Story{
+		Id: id,
+		Title: "Test Story",
+	}
+
+	con.Insert(entry)
+
+	os.Args = []string{"/analyse", id.Hex()}
 
 	main()
 }

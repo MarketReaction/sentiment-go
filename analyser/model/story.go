@@ -9,7 +9,7 @@ type Story struct {
 	Id               bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	url              string        `json:"url"`
 	dateFound        time.Time     `json:"dateFound"`
-	title            string        `json:"title"`
+	Title            string        `json:"title"`
 	body             string        `json:"body"`
 	datePublished    time.Time     `json:"datePublished"`
 	namedEntities 	 NamedEntities  `bson:"keywords"`
@@ -17,10 +17,6 @@ type Story struct {
 	parentSource     string        `json:"parentSource"`
 	matchedCompanies []string      `json:"matchedCompanies"`
 	sentiment        int           `json:"sentiment"`
-}
-
-func (f Story) Title() string {
-	return f.title
 }
 
 func (f Story) Url() string {

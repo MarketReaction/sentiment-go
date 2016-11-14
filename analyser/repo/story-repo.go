@@ -7,7 +7,7 @@ import (
 )
 
 func RepoFindStory(id string) *model.Story {
-	session, c, err := getMongoCollection("stories")
+	session, c, err := GetMongoCollection("stories")
 
 	defer session.Close()
 

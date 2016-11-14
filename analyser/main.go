@@ -20,7 +20,7 @@ func main() {
 	// Load the Story
 	var story *model.Story = repo.RepoFindStory(storyId)
 
-	fmt.Println("StoryTitle: " + story.Title())
+	fmt.Println("StoryTitle: " + story.Title)
 
 	// Check it has NamedEntities
 	//if story.NamedEntities() == nil {
