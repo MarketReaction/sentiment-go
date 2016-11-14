@@ -7,16 +7,16 @@ import (
 
 type Story struct {
 	Id               bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	url              string        `json:"url"`
-	dateFound        time.Time     `json:"dateFound"`
+	Url              string        `json:"url"`
+	DateFound        time.Time     `json:"dateFound"`
 	Title            string        `json:"title"`
-	body             string        `json:"body"`
-	datePublished    time.Time     `json:"datePublished"`
-	namedEntities 	 NamedEntities  `bson:"keywords"`
+	Body             string        `json:"body"`
+	DatePublished    time.Time     `json:"datePublished"`
+	NamedEntities 	 NamedEntities  `bson:"keywords"`
 
-	parentSource     string        `json:"parentSource"`
-	matchedCompanies []string      `json:"matchedCompanies"`
-	sentiment        int           `json:"sentiment"`
+	ParentSource     string        `json:"parentSource"`
+	MatchedCompanies []string      `json:"matchedCompanies"`
+	Sentiment        int           `json:"sentiment"`
 }
 
 func (f Story) Url() string {
@@ -25,9 +25,6 @@ func (f Story) Url() string {
 
 func (f Story) ParentSource() string {
 	return f.parentSource
-}
-func (f Story) NamedEntities() NamedEntities {
-	return f.namedEntities
 }
 
 type Stories []Story

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"./model"
 	"./repo"
+	"log"
 )
 
 func main() {
@@ -23,14 +24,18 @@ func main() {
 	fmt.Println("StoryTitle: " + story.Title)
 
 	// Check it has NamedEntities
-	//if story.NamedEntities() == nil {
-	//	log.Printf("Story [%s] has no NamedEntities", storyId)
-	//	os.Exit(0)
-	//}
+	if story.NamedEntities.IsEmpty() {
+		log.Printf("Story [%s] has no NamedEntities", storyId)
+		os.Exit(0)
+	}
 
 	// Analyse Entities (ie, call sentiment-api)
+	Analyse(story.NamedEntities)
 
 	// Load list of matched companies
+	//for i, comp:= range story.MatchedCompanies {
+	//	comp
+	//}
 
 	// For each company
 	//		Find entities from story that match company

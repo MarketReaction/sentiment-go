@@ -1,8 +1,8 @@
 package model
 
 type NamedEntity struct {
-	name       string       `json:"name"`
-	count      int        	`json:"count"`
-	matched    bool        	`json:"matched"`
-	sentiments []Sentiment  `json:"sentiments"`
+	Name       string       `json:"name"`
+	Count      int        	`json:"count"`
+	Matched    bool        	`json:"matched"`
+	Sentiments []Sentiment  `json:"sentiments"`
 }
