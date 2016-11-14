@@ -84,7 +84,7 @@ func setUp(story *model.Story) (*mgo.Session, dockertest.ContainerID, dockertest
 
 	log.Printf("Sentiment API started at http://%s:%d", ip, port)
 
-	const delay = 2 * time.Second
+	const delay = 5 * time.Second
 	time.Sleep(delay)
 
 	os.Setenv("SENTIMENT_API_ADDR", ip)
