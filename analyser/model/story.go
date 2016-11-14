@@ -19,14 +19,6 @@ type Story struct {
 	Sentiment        int           `json:"sentiment"`
 }
 
-func (f Story) Url() string {
-	return f.url
-}
-
-func (f Story) ParentSource() string {
-	return f.parentSource
-}
-
 type Stories []Story
 
 

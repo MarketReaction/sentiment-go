@@ -14,27 +14,29 @@ import (
 	"strconv"
 )
 
-//func TestAnalyser_withNoNamedEntities_Stops(t *testing.T) {
-//
-//	var id bson.ObjectId = bson.NewObjectId()
-//
-//	story := &model.Story{
-//		Id: id,
-//		Title: "Test Story",
-//	}
-//
-//	var db *mgo.Session
-//	var c dockertest.ContainerID
-//
-//	db, c = setUp(story)
-//
-//	defer db.Close()
-//	defer c.KillRemove()
-//
-//	os.Args = []string{"/analyse", id.Hex()}
-//
-//	main()
-//}
+func TestAnalyser_withNoNamedEntities_Stops(t *testing.T) {
+
+	var id bson.ObjectId = bson.NewObjectId()
+
+	story := &model.Story{
+		Id: id,
+		Title: "Test Story",
+	}
+
+	var db *mgo.Session
+	var c dockertest.ContainerID
+	var apic dockertest.ContainerID
+
+	db, apic, c = setUp(story)
+
+	defer db.Close()
+	defer apic.KillRemove()
+	defer c.KillRemove()
+
+	os.Args = []string{"/analyse", id.Hex()}
+
+	main()
+}
 
 func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 
