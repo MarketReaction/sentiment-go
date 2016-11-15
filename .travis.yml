@@ -12,7 +12,8 @@ env:
   - DOCKERTEST_BIND_LOCALHOST=true
 
 script:
- -  go test
+ -  go get -t -d -v ./...
+ -  go test -v ./...
 
 after_success:
  -  docker run -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
