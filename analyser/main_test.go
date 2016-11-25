@@ -58,6 +58,7 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 				},
 			},
 		},
+		MatchedCompanies: []string{"TestCompany"},
 	}
 
 	var db *mgo.Session

@@ -16,12 +16,12 @@ func main() {
 
 	var storyId string = args[0]
 
-	fmt.Println("StoryId: " + storyId)
+	log.Printf("StoryId: [%s]", storyId)
 
 	// Load the Story
 	var story *model.Story = repo.RepoFindStory(storyId)
 
-	fmt.Println("StoryTitle: " + story.Title)
+	log.Printf("StoryTitle: %s", story.Title)
 
 	// Check it has NamedEntities
 	if story.NamedEntities.IsEmpty() {
@@ -33,9 +33,12 @@ func main() {
 	Analyse(story.NamedEntities)
 
 	// Load list of matched companies
-	//for i, comp:= range story.MatchedCompanies {
-	//	comp
-	//}
+	for _, companyId := range story.MatchedCompanies {
+		log.Printf("Checking Company: [%s]", companyId)
+		var company *model.Company = repo.RepoFindCompany(companyId)
+
+		log.Printf("Checking Company: [%s] Name [%s]", company, company.Name)
+	}
 
 	// For each company
 	//		Find entities from story that match company
