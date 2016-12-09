@@ -41,6 +41,7 @@ func TestAnalyser_withNoNamedEntities_Stops(t *testing.T) {
 func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 
 	var id bson.ObjectId = bson.NewObjectId()
+	var matchedCompanyId bson.ObjectId = bson.NewObjectId()
 
 	story := &model.Story{
 		Id: id,
@@ -58,7 +59,7 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 				},
 			},
 		},
-		MatchedCompanies: []string{"TestCompany"},
+		MatchedCompanies: []string{matchedCompanyId.Hex()},
 	}
 
 	var db *mgo.Session
