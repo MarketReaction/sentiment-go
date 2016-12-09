@@ -1,9 +1,9 @@
 package repo
 
 import (
-	"log"
+	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"labix.org/v2/mgo/bson"
-	"../model"
+	"log"
 )
 
 func RepoFindCompany(id string) *model.Company {

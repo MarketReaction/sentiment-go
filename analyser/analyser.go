@@ -1,25 +1,25 @@
 package main
 
 import (
-	"./model"
-	"log"
-	"fmt"
-	"net/http"
+	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"encoding/json"
-	"os"
+	"fmt"
+	"log"
+	"net/http"
 	"net/url"
+	"os"
 )
 
 type SentimentApiResponse struct {
-	Score              int `json:"score"`
+	Score int `json:"score"`
 }
 
-func Analyse(namedEntities model.NamedEntities) (model.NamedEntities) {
+func Analyse(namedEntities model.NamedEntities) model.NamedEntities {
 
 	log.Println("Analysing Named Entities")
 	log.Println(namedEntities)
 
-	for i, org:= range namedEntities.Organisations {
+	for i, org := range namedEntities.Organisations {
 		if org.Matched {
 			for is, sent := range org.Sentiments {
 				namedEntities.Organisations[i].Sentiments[is].Sentiment = getScoreForText(sent.Sentence)
@@ -27,9 +27,7 @@ func Analyse(namedEntities model.NamedEntities) (model.NamedEntities) {
 		}
 	}
 
-
 	log.Println(namedEntities)
-
 
 	return namedEntities
 }
@@ -38,8 +36,7 @@ func getScoreForText(text string) int {
 	apiUrl := fmt.Sprintf("http://%s:%s", os.Getenv("SENTIMENT_API_ADDR"), os.Getenv("SENTIMENT_API_PORT"))
 
 	form := url.Values{}
-    	form.Add("text", text)
-
+	form.Add("text", text)
 
 	// For control over HTTP client headers,
 	// redirect policy, and other settings,

@@ -1,8 +1,8 @@
 package repo
 
 import (
-	"os"
 	"labix.org/v2/mgo"
+	"os"
 )
 
 func GetMongoCollection(collection string) (*mgo.Session, *mgo.Collection, error) {

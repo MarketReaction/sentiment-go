@@ -1,17 +1,17 @@
 package main
 
 import (
-	"testing"
-	"os"
+	"github.com/MarketReaction/sentiment-go/analyser/model"
+	"github.com/MarketReaction/sentiment-go/analyser/repo"
 	"gopkg.in/ory-am/dockertest.v2"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"log"
-	"time"
-	"strings"
-	"./repo"
-	"./model"
+	"os"
 	"strconv"
+	"strings"
+	"testing"
+	"time"
 )
 
 func TestAnalyser_withNoNamedEntities_Stops(t *testing.T) {
@@ -19,7 +19,7 @@ func TestAnalyser_withNoNamedEntities_Stops(t *testing.T) {
 	var id bson.ObjectId = bson.NewObjectId()
 
 	story := &model.Story{
-		Id: id,
+		Id:    id,
 		Title: "Test Story",
 	}
 
@@ -44,12 +44,12 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 	var matchedCompanyId bson.ObjectId = bson.NewObjectId()
 
 	story := &model.Story{
-		Id: id,
+		Id:    id,
 		Title: "Test Story",
 		NamedEntities: model.NamedEntities{
 			Organisations: []model.NamedEntity{
 				{
-					Name:"Test Name",
+					Name:    "Test Name",
 					Matched: true,
 					Sentiments: []model.Sentiment{
 						{
@@ -79,7 +79,7 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 
 func setUp(story *model.Story) (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID) {
 
-	apic, ip, port, err := dockertest.SetupCustomContainer("marketreaction/sentiment-api", 8888, 10 * time.Second)
+	apic, ip, port, err := dockertest.SetupCustomContainer("marketreaction/sentiment-api", 8888, 10*time.Second)
 	if err != nil {
 		log.Fatalf("Could not setup container: %s", err)
 	}
@@ -93,7 +93,7 @@ func setUp(story *model.Story) (*mgo.Session, dockertest.ContainerID, dockertest
 	os.Setenv("SENTIMENT_API_PORT", strconv.Itoa(port))
 
 	var db *mgo.Session
-	c, err := dockertest.ConnectToMongoDB(15, time.Millisecond * 500, func(url string) bool {
+	c, err := dockertest.ConnectToMongoDB(15, time.Millisecond*500, func(url string) bool {
 		// This callback function checks if the image's process is responsive.
 		// Sometimes, docker images are booted but the process (in this case MongoDB) is still doing maintenance
 		// before being fully responsive which might cause issues like "TCP Connection reset by peer".
