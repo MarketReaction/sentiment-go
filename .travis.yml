@@ -9,11 +9,6 @@ services:
 go:
   - master
 
-before_script:
- -  docker pull marketreaction/sentiment-api
- -  docker run -p 8888:8888 marketreaction/sentiment-api
- -  docker ps
-
 after_success:
  -  docker run -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
  -  docker build analyser -t jonnyshaw89/sentiment:latest
