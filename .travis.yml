@@ -8,9 +8,6 @@ services:
 go:
   - tip
 
-env:
-  - DOCKERTEST_BIND_LOCALHOST=true
-
 before_script:
  -  docker pull marketreaction/sentiment-api
 
