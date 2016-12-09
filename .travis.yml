@@ -6,13 +6,10 @@ services:
   - docker
 
 go:
-  - tip
+  - master
 
 before_script:
  -  docker pull marketreaction/sentiment-api
-
-script:
- -  go test -v ./...
 
 after_success:
  -  docker run -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
