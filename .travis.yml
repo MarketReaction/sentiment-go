@@ -15,7 +15,6 @@ before_script:
  -  docker pull marketreaction/sentiment-api
 
 script:
- -  go get -t -d -v ./...
  -  go test -v ./...
 
 after_success:
