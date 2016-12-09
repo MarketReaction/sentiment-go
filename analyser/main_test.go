@@ -79,7 +79,7 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 
 func setUp(story *model.Story) (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID) {
 
-	apic, ip, port, err := dockertest.SetupCustomContainer("marketreaction/sentiment-api", 8888, 10*time.Second)
+	apic, ip, port, err := dockertest.SetupCustomContainer("marketreaction/sentiment-api", 8888, 60*time.Second)
 	if err != nil {
 		log.Fatalf("Could not setup container: %s", err)
 	}
