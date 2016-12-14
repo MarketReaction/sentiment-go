@@ -33,6 +33,8 @@ func main() {
 	// Analyse Entities (ie, call sentiment-api)
 	Analyse(story.NamedEntities)
 
+	log.Println(story.MatchedCompaniess)
+
 	// Load list of matched companies
 	for _, companyId := range story.MatchedCompanies {
 		var company *model.Company = repo.RepoFindCompany(companyId)
@@ -80,44 +82,44 @@ func main() {
 
 			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
 
-			conn, err := amqp.Dial(activeMQUrl)
-			if err != nil {
-				log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
-			}
-
-			defer conn.Close()
-
-			ch, err := conn.Channel()
-			if err != nil {
-				log.Println(err, "Failed to open a channel")
-			}
-			defer ch.Close()
-
-			q, err := ch.QueueDeclare(
-				"SentimentUpdated", // name
-				false,   // durable
-				false,   // delete when unused
-				false,   // exclusive
-				false,   // no-wait
-				nil,     // arguments
-			)
-			if err != nil {
-				log.Println(err, "Failed to declare a queue")
-			}
-
-			err = ch.Publish(
-				"",     // exchange
-				q.Name, // routing key
-				false,  // mandatory
-				false,  // immediate
-				amqp.Publishing {
-					Body:        []byte(company.Id.Hex()),
-				})
-			if err != nil {
-				log.Println(err, "Failed to publish a message")
-			}
-
-			log.Printf("Message Sent")
+			//conn, err := amqp.Dial(activeMQUrl)
+			//if err != nil {
+			//	log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
+			//}
+			//
+			//defer conn.Close()
+			//
+			//ch, err := conn.Channel()
+			//if err != nil {
+			//	log.Println(err, "Failed to open a channel")
+			//}
+			//defer ch.Close()
+			//
+			//q, err := ch.QueueDeclare(
+			//	"SentimentUpdated", // name
+			//	false,   // durable
+			//	false,   // delete when unused
+			//	false,   // exclusive
+			//	false,   // no-wait
+			//	nil,     // arguments
+			//)
+			//if err != nil {
+			//	log.Println(err, "Failed to declare a queue")
+			//}
+			//
+			//err = ch.Publish(
+			//	"",     // exchange
+			//	q.Name, // routing key
+			//	false,  // mandatory
+			//	false,  // immediate
+			//	amqp.Publishing {
+			//		Body:        []byte(company.Id.Hex()),
+			//	})
+			//if err != nil {
+			//	log.Println(err, "Failed to publish a message")
+			//}
+			//
+			//log.Printf("Message Sent")
 
 		}
 
