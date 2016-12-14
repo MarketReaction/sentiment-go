@@ -59,10 +59,10 @@ func main() {
 						Company:         company.Id.Hex(),
 						StoryDate:       story.DatePublished,
 						Story:           story.Id.Hex(),
-						EntitySentiment: []model.EntitySentiment{entitySentiment},
+						EntitySentiment: []*model.EntitySentiment{entitySentiment},
 					}
 
-					log.Output(0, storySentiment)
+					log.Println(storySentiment)
 
 					//final StorySentiment storySentiment = new StorySentiment(company.getId(), story.getDatePublished(), story.getId());
 					//
