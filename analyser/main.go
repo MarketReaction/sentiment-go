@@ -6,7 +6,6 @@ import (
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
 	"log"
 	"os"
-	"github.com/streadway/amqp"
 )
 
 func main() {
