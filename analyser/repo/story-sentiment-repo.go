@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func RepoInsertStorySentiment(storySentimentToSave model.StorySentiment) model.StorySentiment {
+func RepoInsertStorySentiment(storySentimentToSave *model.StorySentiment) *model.StorySentiment {
 
 	session, c, err := GetMongoCollection("storySentiment")
 
