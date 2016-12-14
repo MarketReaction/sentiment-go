@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
-	//"github.com/streadway/amqp"
 	"log"
 	"os"
+	"github.com/streadway/amqp"
 )
 
 func main() {
@@ -80,36 +80,44 @@ func main() {
 
 			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
 
-			//conn, err := amqp.Dial(activeMQUrl)
-			//if err != nil {
-			//	log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
-			//}
-			//
-			//defer conn.Close()
+			conn, err := amqp.Dial(activeMQUrl)
+			if err != nil {
+				log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
+			}
 
-			//ch, err := conn.Channel()
-			//log.Println(err, "Failed to open a channel")
-			//defer ch.Close()
-			//
-			//q, err := ch.QueueDeclare(
-			//	"SentimentUpdated", // name
-			//	false,   // durable
-			//	false,   // delete when unused
-			//	false,   // exclusive
-			//	false,   // no-wait
-			//	nil,     // arguments
-			//)
-			//log.Println(err, "Failed to declare a queue")
-			//
-			//err = ch.Publish(
-			//	"",     // exchange
-			//	q.Name, // routing key
-			//	false,  // mandatory
-			//	false,  // immediate
-			//	amqp.Publishing {
-			//		Body:        []byte(company.Id.Hex()),
-			//	})
-			//log.Println(err, "Failed to publish a message")
+			defer conn.Close()
+
+			ch, err := conn.Channel()
+			if err != nil {
+				log.Println(err, "Failed to open a channel")
+			}
+			defer ch.Close()
+
+			q, err := ch.QueueDeclare(
+				"SentimentUpdated", // name
+				false,   // durable
+				false,   // delete when unused
+				false,   // exclusive
+				false,   // no-wait
+				nil,     // arguments
+			)
+			if err != nil {
+				log.Println(err, "Failed to declare a queue")
+			}
+
+			err = ch.Publish(
+				"",     // exchange
+				q.Name, // routing key
+				false,  // mandatory
+				false,  // immediate
+				amqp.Publishing {
+					Body:        []byte(company.Id.Hex()),
+				})
+			if err != nil {
+				log.Println(err, "Failed to publish a message")
+			}
+
+			log.Printf("Message Sent")
 
 		}
 
