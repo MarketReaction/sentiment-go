@@ -34,13 +34,11 @@ func main() {
 
 	// Load list of matched companies
 	for _, companyId := range story.MatchedCompanies {
-		log.Printf("Checking Company: [%s]", companyId)
 		var company *model.Company = repo.RepoFindCompany(companyId)
 
-		log.Printf("Checking Company: [%s] Name [%s]", company.Id, company.Name)
+		log.Printf("Checking Company: [%s] Name [%s]", company.Id.Hex(), company.Name)
 
 		for _, storyOrg := range story.NamedEntities.Organisations {
-
 			for _, companyOrg := range company.NamedEntities.Organisations {
 				if storyOrg.Name == companyOrg.Name {
 
@@ -48,7 +46,7 @@ func main() {
 
 					var sentimentSum int = 0
 
-					for _, sentiment := range companyOrg.Sentiments {
+					for _, sentiment := range storyOrg.Sentiments {
 						sentimentSum += sentiment.Sentiment
 					}
 
