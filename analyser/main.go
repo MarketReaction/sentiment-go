@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
-	"github.com/streadway/amqp"
+	//"github.com/streadway/amqp"
 	"log"
 	"os"
 )
