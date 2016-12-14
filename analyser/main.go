@@ -64,6 +64,8 @@ func main() {
 
 					log.Println(storySentiment)
 
+					repo.RepoInsertStorySentiment(storySentiment)
+
 					//final StorySentiment storySentiment = new StorySentiment(company.getId(), story.getDatePublished(), story.getId());
 					//
 					//int multiplier = Stream.of(company.getEntities().getOrganisations(), company.getEntities().getPeople(), company.getEntities().getLocations(), company.getEntities().getMisc()).flatMap(Collection::stream)

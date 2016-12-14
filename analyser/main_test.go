@@ -91,6 +91,16 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 	os.Args = []string{"/analyse", storyId.Hex()}
 
 	main()
+
+	session, c, _ := repo.GetMongoCollection("storySentiment")
+
+	defer session.Close()
+
+	count, _ = c.Count()
+
+	if count != 1 {
+		t.Fatal("Expected Count to be 1 actual ", count)
+	}
 }
 
 func setUp() (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID) {
