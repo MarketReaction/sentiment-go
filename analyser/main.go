@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
+	"github.com/streadway/amqp"
 	"log"
 	"os"
 )
@@ -36,6 +37,8 @@ func main() {
 	for _, companyId := range story.MatchedCompanies {
 		var company *model.Company = repo.RepoFindCompany(companyId)
 
+		var companyUpdated bool = false
+
 		log.Printf("Checking Company: [%s] Name [%s]", company.Id.Hex(), company.Name)
 
 		for _, storyOrg := range story.NamedEntities.Organisations {
@@ -66,19 +69,41 @@ func main() {
 
 					repo.RepoInsertStorySentiment(storySentiment)
 
-					//final StorySentiment storySentiment = new StorySentiment(company.getId(), story.getDatePublished(), story.getId());
-					//
-					//int multiplier = Stream.of(company.getEntities().getOrganisations(), company.getEntities().getPeople(), company.getEntities().getLocations(), company.getEntities().getMisc()).flatMap(Collection::stream)
-					//        .filter(companyNamedEntity -> companyNamedEntity.equals(namedEntity)).collect(Collectors.summingInt(NamedEntity::getCount));
-					//
-					//storySentiment.getEntitySentiment().add(new EntitySentiment(namedEntity.getName(), namedEntity.getSentiments().stream().collect(Collectors.summingInt(Sentiment::getSentiment)) * multiplier));
-					//
-					//storySentimentRepository.save(storySentiment);
-					//
-					//updatedCompanyIds.add(company.getId());
-
+					companyUpdated = true
 				}
 			}
+		}
+
+		if (companyUpdated) {
+
+			conn, err := amqp.Dial("amqp://user:password@rabbitmq:5672/")
+			failOnError(err, "Failed to connect to RabbitMQ")
+			defer conn.Close()
+
+			ch, err := conn.Channel()
+			failOnError(err, "Failed to open a channel")
+			defer ch.Close()
+
+			q, err := ch.QueueDeclare(
+				"SentimentUpdated", // name
+				false,   // durable
+				false,   // delete when unused
+				false,   // exclusive
+				false,   // no-wait
+				nil,     // arguments
+			)
+			failOnError(err, "Failed to declare a queue")
+
+			err = ch.Publish(
+				"",     // exchange
+				q.Name, // routing key
+				false,  // mandatory
+				false,  // immediate
+				amqp.Publishing {
+					Body:        []byte(company.Id.Hex()),
+				})
+			failOnError(err, "Failed to publish a message")
+
 		}
 
 	}
