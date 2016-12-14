@@ -6,6 +6,7 @@ import (
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
 	"log"
 	"os"
+	"github.com/streadway/amqp"
 )
 
 func main() {
@@ -31,9 +32,6 @@ func main() {
 
 	// Analyse Entities (ie, call sentiment-api)
 	Analyse(story.NamedEntities)
-
-	log.Printf("Checking matched companies")
-	log.Println(story.MatchedCompanies)
 
 	// Load list of matched companies
 	for _, companyId := range story.MatchedCompanies {
@@ -78,7 +76,7 @@ func main() {
 
 		if (companyUpdated) {
 
-			var activeMQUrl string = fmt.Sprintf("amqp://admin:admin@%s:%s/", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
+			var activeMQUrl string = fmt.Sprintf("amqp://@%s:%s/", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
 
 			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
 

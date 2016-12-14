@@ -15,7 +15,7 @@ type Story struct {
 	NamedEntities NamedEntities `bson:"entities"`
 
 	ParentSource     string   `json:"parentSource"`
-	MatchedCompanies []string `json:"matchedCompanies"`
+	MatchedCompanies []string `bson:"matchedCompanies"`
 	Sentiment        int      `json:"sentiment"`
 }
 
