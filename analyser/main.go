@@ -50,16 +50,16 @@ func main() {
 						sentimentSum += sentiment.Sentiment
 					}
 
-					entitySentiment := &model.EntitySentiment{
-						Entity:    companyOrg.Name,
-						Sentiment: sentimentSum * companyOrg.Count,
-					}
-
 					storySentiment := &model.StorySentiment{
-						Company:         company.Id.Hex(),
-						StoryDate:       story.DatePublished,
-						Story:           story.Id.Hex(),
-						EntitySentiment: []*model.EntitySentiment{entitySentiment},
+						Company:   company.Id.Hex(),
+						StoryDate: story.DatePublished,
+						Story:     story.Id.Hex(),
+						EntitySentiment: []model.EntitySentiment{
+							{
+								Entity:    companyOrg.Name,
+								Sentiment: sentimentSum * companyOrg.Count,
+							},
+						},
 					}
 
 					log.Println(storySentiment)
