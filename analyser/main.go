@@ -76,9 +76,11 @@ func main() {
 
 		if (companyUpdated) {
 
-			log.Printf("ActiveMQ at url [%s:%s]", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
+			var activeMQUrl string = fmt.Sprintf("amqp://%s:%s/", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
 
-			conn, err := amqp.Dial("amqp://user:password@rabbitmq:5672/")
+			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
+
+			conn, err := amqp.Dial(activeMQUrl)
 			log.Println(err, "Failed to connect to RabbitMQ")
 			defer conn.Close()
 
