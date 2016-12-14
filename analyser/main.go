@@ -37,7 +37,7 @@ func main() {
 		log.Printf("Checking Company: [%s]", companyId)
 		var company *model.Company = repo.RepoFindCompany(companyId)
 
-		log.Printf("Checking Company: [%s] Name [%s]", company, company.Name)
+		log.Printf("Checking Company: [%s] Name [%s]", company.Id, company.Name)
 	}
 
 	// For each company
