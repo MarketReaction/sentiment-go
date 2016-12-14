@@ -77,11 +77,11 @@ func main() {
 		if (companyUpdated) {
 
 			conn, err := amqp.Dial("amqp://user:password@rabbitmq:5672/")
-			failOnError(err, "Failed to connect to RabbitMQ")
+			log.Println(err, "Failed to connect to RabbitMQ")
 			defer conn.Close()
 
 			ch, err := conn.Channel()
-			failOnError(err, "Failed to open a channel")
+			log.Println(err, "Failed to open a channel")
 			defer ch.Close()
 
 			q, err := ch.QueueDeclare(
@@ -92,7 +92,7 @@ func main() {
 				false,   // no-wait
 				nil,     // arguments
 			)
-			failOnError(err, "Failed to declare a queue")
+			log.Println(err, "Failed to declare a queue")
 
 			err = ch.Publish(
 				"",     // exchange
@@ -102,7 +102,7 @@ func main() {
 				amqp.Publishing {
 					Body:        []byte(company.Id.Hex()),
 				})
-			failOnError(err, "Failed to publish a message")
+			log.Println(err, "Failed to publish a message")
 
 		}
 
