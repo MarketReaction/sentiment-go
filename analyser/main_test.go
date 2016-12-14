@@ -77,16 +77,18 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 	}
 
 	var db *mgo.Session
-	var c dockertest.ContainerID
+	var mongoc dockertest.ContainerID
 	var apic dockertest.ContainerID
+	var activemqc dockertest.ContainerID
 
-	db, apic, c = setUp()
+	db, apic, mongoc, activemqc = setUp()
 	addTestStory(story)
 	addTestCompany(company)
 
 	defer db.Close()
 	defer apic.KillRemove()
-	defer c.KillRemove()
+	defer mongoc.KillRemove()
+	defer activemqc.KillRemove()
 
 	os.Args = []string{"/analyse", storyId.Hex()}
 
@@ -103,7 +105,7 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 	}
 }
 
-func setUp() (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID) {
+func setUp() (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID, dockertest.ContainerID) {
 
 	apic, ip, port, err := dockertest.SetupCustomContainer("marketreaction/sentiment-api", 8888, 10*time.Second)
 	if err != nil {
@@ -119,7 +121,7 @@ func setUp() (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID) {
 	os.Setenv("SENTIMENT_API_PORT", strconv.Itoa(port))
 
 	var db *mgo.Session
-	c, err := dockertest.ConnectToMongoDB(15, time.Millisecond*500, func(url string) bool {
+	mongoc, err := dockertest.ConnectToMongoDB(15, time.Millisecond*500, func(url string) bool {
 		// This callback function checks if the image's process is responsive.
 		// Sometimes, docker images are booted but the process (in this case MongoDB) is still doing maintenance
 		// before being fully responsive which might cause issues like "TCP Connection reset by peer".
@@ -144,7 +146,21 @@ func setUp() (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID) {
 	os.Setenv("MONGO_PORT_27017_TCP_ADDR", "127.0.0.1")
 	os.Setenv("MONGO_PORT_27017_TCP_PORT", mongoHost[1])
 
-	return db, apic, c
+	activemqc, err := dockertest.ConnectToActiveMQ(15, time.Millisecond*500, func(url string) bool {
+
+		var urlParts = strings.Split(url, ":")
+
+		os.Setenv("ACTIVEMQ_PORT_61616_TCP_ADDR", urlParts[0])
+		os.Setenv("ACTIVEMQ_PORT_61616_TCP_PORT", urlParts[1])
+
+		return true
+	})
+
+	if err != nil {
+		log.Fatalf("Could not connect to activemq: %s", err)
+	}
+
+	return db, apic, mongoc, activemqc
 }
 
 func addTestStory(story *model.Story) {
