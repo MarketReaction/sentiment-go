@@ -1,9 +1,9 @@
 package main // import "github.com/MarketReaction/sentiment-go/analyser"
 
 import (
+	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
-	"fmt"
 	"log"
 	"os"
 )
@@ -36,6 +36,52 @@ func main() {
 	for _, companyId := range story.MatchedCompanies {
 		log.Printf("Checking Company: [%s]", companyId)
 		var company *model.Company = repo.RepoFindCompany(companyId)
+
+		for si, storyOrg := range story.NamedEntities.Organisations {
+
+			for ci, companyOrg := range company.NamedEntities.Organisations {
+				if storyOrg.Name == companyOrg.Name {
+
+					sentimentSum = 0
+
+					for _, sentiment := range companyOrg.Sentiments {
+						sentimentSum += sentiment.Sentiment
+					}
+
+					entitySentiment := &model.EntitySentiment{
+						Entity:    companyOrg.Name,
+						Sentiment: sentimentSum * companyOrg.Count,
+					}
+
+					storySentiment := &model.StorySentiment{
+						Company:         company.Id,
+						StoryDate:       story.DatePublished,
+						Story:           story.Id,
+						EntitySentiment: []EntitySentiment{entitySentiment},
+					}
+
+					log.Output(0, storySentiment)
+
+					//final StorySentiment storySentiment = new StorySentiment(company.getId(), story.getDatePublished(), story.getId());
+					//
+					//int multiplier = Stream.of(company.getEntities().getOrganisations(), company.getEntities().getPeople(), company.getEntities().getLocations(), company.getEntities().getMisc()).flatMap(Collection::stream)
+					//        .filter(companyNamedEntity -> companyNamedEntity.equals(namedEntity)).collect(Collectors.summingInt(NamedEntity::getCount));
+					//
+					//storySentiment.getEntitySentiment().add(new EntitySentiment(namedEntity.getName(), namedEntity.getSentiments().stream().collect(Collectors.summingInt(Sentiment::getSentiment)) * multiplier));
+					//
+					//storySentimentRepository.save(storySentiment);
+					//
+					//updatedCompanyIds.add(company.getId());
+
+				}
+			}
+
+			if storyOrg.Name {
+				for is, sent := range storyOrg.Sentiments {
+					namedEntities.Organisations[si].Sentiments[is].Sentiment = getScoreForText(sent.Sentence)
+				}
+			}
+		}
 
 		log.Printf("Checking Company: [%s] Name [%s]", company.Id, company.Name)
 	}

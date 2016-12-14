@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"encoding/json"
 	"fmt"
+	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"log"
 	"net/http"
 	"net/url"
@@ -17,7 +17,7 @@ type SentimentApiResponse struct {
 func Analyse(namedEntities model.NamedEntities) model.NamedEntities {
 
 	log.Println("Analysing Named Entities")
-	log.Output(0, "Named Entities: [%s]" % namedEntities)
+	log.Output(0, "Named Entities: [%s]"%namedEntities)
 
 	for i, org := range namedEntities.Organisations {
 		if org.Matched {
@@ -27,7 +27,7 @@ func Analyse(namedEntities model.NamedEntities) model.NamedEntities {
 		}
 	}
 
-	log.Println(namedEntities)
+	log.Output(1, "Named Entities: [%s]"%namedEntities)
 
 	return namedEntities
 }

@@ -64,8 +64,8 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 	}
 
 	company := &model.Company{
-		Id:    matchedCompanyId,
-		Name:	"Test Company",
+		Id:   matchedCompanyId,
+		Name: "Test Company",
 	}
 
 	var db *mgo.Session
