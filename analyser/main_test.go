@@ -92,11 +92,11 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 
 	main()
 
-	session, c, _ := repo.GetMongoCollection("storySentiment")
+	session, storySentimentCollection, _ := repo.GetMongoCollection("storySentiment")
 
 	defer session.Close()
 
-	count, _ = c.Count()
+	count, _ := storySentimentCollection.Count()
 
 	if count != 1 {
 		t.Fatal("Expected Count to be 1 actual ", count)
