@@ -80,12 +80,12 @@ func main() {
 
 			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
 
-			conn, err := amqp.Dial(activeMQUrl)
-			if err != nil {
-				log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
-			}
-
-			defer conn.Close()
+			//conn, err := amqp.Dial(activeMQUrl)
+			//if err != nil {
+			//	log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
+			//}
+			//
+			//defer conn.Close()
 
 			//ch, err := conn.Channel()
 			//log.Println(err, "Failed to open a channel")
