@@ -33,7 +33,8 @@ func main() {
 	// Analyse Entities (ie, call sentiment-api)
 	Analyse(story.NamedEntities)
 
-	log.Println(story.MatchedCompaniess)
+	log.Printf("Checking matched companies")
+	log.Println(story.MatchedCompanies)
 
 	// Load list of matched companies
 	for _, companyId := range story.MatchedCompanies {
