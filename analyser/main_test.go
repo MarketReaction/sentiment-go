@@ -138,8 +138,7 @@ func addTestStory(story *model.Story) {
 
 	defer session.Close()
 
-	log.Println("Inserting story [%s] for Test", story.Id
-	}{})
+	log.Println("Inserting story [%s] for Test", story.Id)
 
 	con.Insert(story)
 
