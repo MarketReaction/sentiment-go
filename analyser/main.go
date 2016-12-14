@@ -37,12 +37,14 @@ func main() {
 		log.Printf("Checking Company: [%s]", companyId)
 		var company *model.Company = repo.RepoFindCompany(companyId)
 
-		for si, storyOrg := range story.NamedEntities.Organisations {
+		log.Printf("Checking Company: [%s] Name [%s]", company.Id, company.Name)
 
-			for ci, companyOrg := range company.NamedEntities.Organisations {
+		for _, storyOrg := range story.NamedEntities.Organisations {
+
+			for _, companyOrg := range company.NamedEntities.Organisations {
 				if storyOrg.Name == companyOrg.Name {
 
-					sentimentSum = 0
+					var sentimentSum int = 0
 
 					for _, sentiment := range companyOrg.Sentiments {
 						sentimentSum += sentiment.Sentiment
@@ -54,10 +56,10 @@ func main() {
 					}
 
 					storySentiment := &model.StorySentiment{
-						Company:         company.Id,
+						Company:         company.Id.Hex(),
 						StoryDate:       story.DatePublished,
-						Story:           story.Id,
-						EntitySentiment: []EntitySentiment{entitySentiment},
+						Story:           story.Id.Hex(),
+						EntitySentiment: []model.EntitySentiment{entitySentiment},
 					}
 
 					log.Output(0, storySentiment)
@@ -75,15 +77,8 @@ func main() {
 
 				}
 			}
-
-			if storyOrg.Name {
-				for is, sent := range storyOrg.Sentiments {
-					namedEntities.Organisations[si].Sentiments[is].Sentiment = getScoreForText(sent.Sentence)
-				}
-			}
 		}
 
-		log.Printf("Checking Company: [%s] Name [%s]", company.Id, company.Name)
 	}
 
 	// For each company

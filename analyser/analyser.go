@@ -17,7 +17,7 @@ type SentimentApiResponse struct {
 func Analyse(namedEntities model.NamedEntities) model.NamedEntities {
 
 	log.Println("Analysing Named Entities")
-	log.Output(0, namedEntities)
+	log.Println(namedEntities)
 
 	for i, org := range namedEntities.Organisations {
 		if org.Matched {
@@ -27,7 +27,7 @@ func Analyse(namedEntities model.NamedEntities) model.NamedEntities {
 		}
 	}
 
-	log.Output(1, namedEntities)
+	log.Println(namedEntities)
 
 	return namedEntities
 }
