@@ -44,6 +44,8 @@ func main() {
 			for _, companyOrg := range company.NamedEntities.Organisations {
 				if storyOrg.Name == companyOrg.Name {
 
+					log.Printf("Matched name [%s] in company [%s]", storyOrg.Name, company.Name)
+
 					var sentimentSum int = 0
 
 					for _, sentiment := range companyOrg.Sentiments {
