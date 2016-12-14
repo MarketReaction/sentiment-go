@@ -12,7 +12,7 @@ type Story struct {
 	Title         string        `json:"title"`
 	Body          string        `json:"body"`
 	DatePublished time.Time     `json:"datePublished"`
-	NamedEntities NamedEntities `json:"entities"`
+	NamedEntities NamedEntities `bson:"entities"`
 
 	ParentSource     string   `json:"parentSource"`
 	MatchedCompanies []string `json:"matchedCompanies"`
