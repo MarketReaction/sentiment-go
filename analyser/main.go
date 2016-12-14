@@ -76,7 +76,7 @@ func main() {
 
 		if (companyUpdated) {
 
-			var activeMQUrl string = fmt.Sprintf("amqp://%s:%s/", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
+			var activeMQUrl string = fmt.Sprintf("amqp://admin:admin@%s:%s/", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
 
 			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
 
