@@ -24,15 +24,17 @@ func TestAnalyser_withNoNamedEntities_Stops(t *testing.T) {
 	}
 
 	var db *mgo.Session
-	var c dockertest.ContainerID
+	var mongoc dockertest.ContainerID
 	var apic dockertest.ContainerID
+	var activemqc dockertest.ContainerID
 
-	db, apic, c = setUp()
+	db, apic, mongoc, activemqc = setUp()
 	addTestStory(story)
 
 	defer db.Close()
 	defer apic.KillRemove()
-	defer c.KillRemove()
+	defer mongoc.KillRemove()
+	defer activemqc.KillRemove()
 
 	os.Args = []string{"/analyse", id.Hex()}
 
