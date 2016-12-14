@@ -138,7 +138,8 @@ func addTestStory(story *model.Story) {
 
 	defer session.Close()
 
-	log.Println("Inserting story for Test")
+	log.Println("Inserting story [%s] for Test", story.Id
+	}{})
 
 	con.Insert(story)
 
@@ -154,7 +155,7 @@ func addTestCompany(company *model.Company) {
 
 	defer session.Close()
 
-	log.Println("Inserting story for Test")
+	log.Println("Inserting company [%s] for Test", company.Id)
 
 	con.Insert(company)
 
