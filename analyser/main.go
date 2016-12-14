@@ -82,7 +82,7 @@ func main() {
 
 			conn, err := amqp.Dial(activeMQUrl)
 			if err != nil {
-				log.Fatalf("Failed to connect to ActiveMQ", err)
+				log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
 			}
 
 			defer conn.Close()
