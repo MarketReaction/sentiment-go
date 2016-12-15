@@ -1,5 +1,5 @@
 FROM scratch
 
-COPY analyser /
+COPY analyser-linux-arm /
 
-ENTRYPOINT ["/analyser"]
+ENTRYPOINT ["/analyser-linux-arm"]
