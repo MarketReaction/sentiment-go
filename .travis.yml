@@ -10,7 +10,7 @@ before_script:
   - go vet ./...
 
 after_success:
-  - docker run -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
+  - docker run -e BUILD_GOOS="linux" -e BUILD_GOARCH="arm amd64" -v $(pwd)/analyser:/src bdehamer/golang-builder:latest
   - docker build analyser -t marketreaction/sentiment:latest
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push marketreaction/sentiment:latest
