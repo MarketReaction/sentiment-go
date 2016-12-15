@@ -119,8 +119,7 @@ func setUp() (*mgo.Session, dockertest.ContainerID, dockertest.ContainerID, dock
 	const delay = 5 * time.Second
 	time.Sleep(delay)
 
-	os.Setenv("SENTIMENT_API_ADDR", ip)
-	os.Setenv("SENTIMENT_API_PORT", strconv.Itoa(port))
+	os.Setenv("SENTIMENT_API_REST_URL", ip + ":" + strconv.Itoa(port))
 
 	var db *mgo.Session
 	mongoc, err := dockertest.ConnectToMongoDB(15, time.Millisecond*500, func(url string) bool {

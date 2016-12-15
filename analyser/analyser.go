@@ -30,7 +30,7 @@ func Analyse(namedEntities model.NamedEntities) model.NamedEntities {
 }
 
 func getScoreForText(text string) int {
-	apiUrl := fmt.Sprintf("http://%s:%s", os.Getenv("SENTIMENT_API_ADDR"), os.Getenv("SENTIMENT_API_PORT"))
+	apiUrl := fmt.Sprintf("http://%s", os.Getenv("SENTIMENT_API_REST_URL"))
 
 	form := url.Values{}
 	form.Add("text", text)
