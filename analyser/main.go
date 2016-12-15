@@ -76,7 +76,7 @@ func main() {
 
 		if (companyUpdated) {
 
-			var activeMQUrl string = fmt.Sprintf("%s:%s", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
+			var activeMQUrl string = fmt.Sprintf("%s:61613", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"))
 
 			conn, err := stomp.Dial("tcp", activeMQUrl)
 
