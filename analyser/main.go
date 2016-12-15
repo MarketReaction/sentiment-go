@@ -6,7 +6,7 @@ import (
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
 	"log"
 	"os"
-	"github.com/streadway/amqp"
+	"github.com/jjeffery/stomp"
 )
 
 func main() {
@@ -76,60 +76,28 @@ func main() {
 
 		if (companyUpdated) {
 
-			var activeMQUrl string = fmt.Sprintf("amqp://@%s:%s/", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
+			var activeMQUrl string = fmt.Sprintf("%s:%s", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"), os.Getenv("ACTIVEMQ_PORT_61616_TCP_PORT"))
 
-			log.Printf("ActiveMQ at url [%s]", activeMQUrl)
+			conn, err := stomp.Dial("tcp", activeMQUrl)
 
-			//conn, err := amqp.Dial(activeMQUrl)
-			//if err != nil {
-			//	log.Fatalf("Failed to connect to ActiveMQ. err [%s]", err)
-			//}
-			//
-			//defer conn.Close()
-			//
-			//ch, err := conn.Channel()
-			//if err != nil {
-			//	log.Println(err, "Failed to open a channel")
-			//}
-			//defer ch.Close()
-			//
-			//q, err := ch.QueueDeclare(
-			//	"SentimentUpdated", // name
-			//	false,   // durable
-			//	false,   // delete when unused
-			//	false,   // exclusive
-			//	false,   // no-wait
-			//	nil,     // arguments
-			//)
-			//if err != nil {
-			//	log.Println(err, "Failed to declare a queue")
-			//}
-			//
-			//err = ch.Publish(
-			//	"",     // exchange
-			//	q.Name, // routing key
-			//	false,  // mandatory
-			//	false,  // immediate
-			//	amqp.Publishing {
-			//		Body:        []byte(company.Id.Hex()),
-			//	})
-			//if err != nil {
-			//	log.Println(err, "Failed to publish a message")
-			//}
-			//
-			//log.Printf("Message Sent")
+			if err != nil {
+				println("cannot connect to server", err.Error())
+				return
+			}
 
+			//conn.Send("SentimentUpdated", "", []byte(company.Id.Hex()), nil)
+
+			err = conn.Send(
+				"/queue/SentimentUpdated",           // destination
+				"text/plain",              // content-type
+				[]byte(company.Id.Hex())) // body
+			if err != nil {
+				println("cannot connect to server", err.Error())
+			}
+
+			conn.Disconnect()
+
+			log.Printf("Message Sent for SentimentUpdated to company [%s]", company.Name)
 		}
-
 	}
-
-	// For each company
-	//		Find entities from story that match company
-	//		Construct StorySentiment on matches
-	//		Count the occurrences of that name in the company information
-	//		Apply that count as a multiplier on the sentiment
-	//		Save the StorySentiment
-
-	// For each company with an updated sentiment send the Id on Queue SentimentUpdated
-
 }
