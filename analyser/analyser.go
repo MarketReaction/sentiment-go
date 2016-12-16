@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"log"
 	"net/http"
