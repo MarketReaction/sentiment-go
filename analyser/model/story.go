@@ -8,10 +8,10 @@ import (
 type Story struct {
 	Id            bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Url           string        `json:"url"`
-	DateFound     time.Time     `json:"dateFound"`
+	DateFound     time.Time     `bson:"dateFound"`
 	Title         string        `json:"title"`
 	Body          string        `json:"body"`
-	DatePublished time.Time     `json:"datePublished"`
+	DatePublished time.Time     `bson:"datePublished"`
 	NamedEntities NamedEntities `bson:"entities"`
 
 	ParentSource     string   `json:"parentSource"`

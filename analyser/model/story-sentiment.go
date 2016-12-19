@@ -8,7 +8,7 @@ import (
 type StorySentiment struct {
 	Id              bson.ObjectId     `json:"id" bson:"_id,omitempty"`
 	Company         string            `json:"company"`
-	StoryDate       time.Time         `json:"storyDate"`
+	StoryDate       time.Time         `bson:"storyDate"`
 	Story           string            `json:"story"`
 	EntitySentiment []EntitySentiment `json:"entitySentiment"`
 }
