@@ -54,7 +54,6 @@ func main() {
 						sentimentSum += sentiment.Sentiment
 					}
 
-					log.Println(story)
 					log.Printf("Saving sentiment for story published on [%s]", story.DatePublished)
 
 					storySentiment := &model.StorySentiment{
