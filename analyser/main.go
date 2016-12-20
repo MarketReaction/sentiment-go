@@ -90,7 +90,7 @@ func main() {
 			err = conn.Send(
 				"/queue/SentimentUpdated",           // destination
 				"text/plain",              // content-type
-				[]byte(company.Id.Hex())) // body
+				company.Id.Hex()) // body
 			if err != nil {
 				println("cannot connect to server", err.Error())
 			}
