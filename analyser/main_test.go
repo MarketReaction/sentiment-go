@@ -49,6 +49,7 @@ func TestAnalyser_withNamedEntities_CallsSentimentApi(t *testing.T) {
 	story := &model.Story{
 		Id:    storyId,
 		Title: "Test Story",
+		DatePublished: time.Now(),
 		NamedEntities: model.NamedEntities{
 			Organisations: []model.NamedEntity{
 				{

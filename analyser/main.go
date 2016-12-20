@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"github.com/MarketReaction/sentiment-go/analyser/model"
 	"github.com/MarketReaction/sentiment-go/analyser/repo"
+	"github.com/jjeffery/stomp"
+	"labix.org/v2/mgo/bson"
 	"log"
 	"os"
-	"github.com/jjeffery/stomp"
 )
 
 func main() {
@@ -53,7 +54,10 @@ func main() {
 						sentimentSum += sentiment.Sentiment
 					}
 
+					log.Printf("Saving sentiment for story published on [%s]", story.DatePublished)
+
 					storySentiment := &model.StorySentiment{
+						Id:        bson.NewObjectId(),
 						Company:   company.Id.Hex(),
 						StoryDate: story.DatePublished,
 						Story:     story.Id.Hex(),
@@ -74,7 +78,7 @@ func main() {
 			}
 		}
 
-		if (companyUpdated) {
+		if companyUpdated {
 
 			var activeMQUrl string = fmt.Sprintf("%s:61613", os.Getenv("ACTIVEMQ_PORT_61616_TCP_ADDR"))
 
@@ -88,9 +92,9 @@ func main() {
 			//conn.Send("SentimentUpdated", "", []byte(company.Id.Hex()), nil)
 
 			err = conn.Send(
-				"/queue/SentimentUpdated",           // destination
+				"/queue/SentimentUpdated", // destination
 				"text/plain",              // content-type
-				company.Id.Hex()) // body
+				company.Id.Hex()) 	   // body
 			if err != nil {
 				println("cannot connect to server", err.Error())
 			}
