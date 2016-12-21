@@ -10,5 +10,5 @@ type StorySentiment struct {
 	Company         string            `json:"company"`
 	StoryDate       time.Time         `bson:"storyDate"`
 	Story           string            `json:"story"`
-	EntitySentiment []EntitySentiment `json:"entitySentiment"`
+	EntitySentiment []EntitySentiment `bson:"entitySentiment"`
 }
